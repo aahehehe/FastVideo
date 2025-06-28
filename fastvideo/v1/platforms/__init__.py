@@ -13,6 +13,17 @@ from fastvideo.v1.utils import resolve_obj_by_qualname
 logger = logging.getLogger(__name__)
 
 
+def npu_platform_plugin() -> Optional[str]:
+    is_npu = False
+    try:
+        import torch_npu  # noqa: F401
+        is_npu = True
+    except ImportError:
+        pass
+
+    return "fastvideo.v1.platforms.npu.NpuPlatform" if is_npu else None
+
+
 def cuda_platform_plugin() -> Optional[str]:
     is_cuda = False
 
