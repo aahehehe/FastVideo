@@ -26,7 +26,7 @@ from diffusers.models.modeling_utils import ModelMixin
 from diffusers.models.normalization import AdaLayerNormContinuous
 from diffusers.utils import USE_PEFT_BACKEND, is_torch_version, logging, scale_lora_layers, unscale_lora_layers
 from diffusers.utils.torch_utils import maybe_allow_in_graph
-from liger_kernel.ops.swiglu import LigerSiLUMulFunction
+# from liger_kernel.ops.swiglu import LigerSiLUMulFunction
 
 from fastvideo.models.flash_attn_no_pad import flash_attn_no_pad
 from fastvideo.models.mochi_hf.norm import (MochiLayerNormContinuous, MochiModulatedRMSNorm, MochiRMSNorm,
@@ -57,7 +57,8 @@ class FeedForward(HF_FeedForward):
         hidden_states = self.net[0].proj(hidden_states)
         hidden_states, gate = hidden_states.chunk(2, dim=-1)
 
-        return self.net[2](LigerSiLUMulFunction.apply(gate, hidden_states))
+        # return self.net[2](LigerSiLUMulFunction.apply(gate, hidden_states))
+        return self.net[2](gate * F.sigmoid(gate) * hidden_states)
 
 
 class MochiAttention(nn.Module):

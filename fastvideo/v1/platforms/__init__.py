@@ -66,7 +66,7 @@ builtin_platform_plugins = {
 def resolve_current_platform_cls_qualname() -> str:
     # TODO(will): if we need to support other platforms, we should consider if
     # vLLM's plugin architecture is suitable for our needs.
-    platform_cls_qualname = builtin_platform_plugins['cuda']()
+    platform_cls_qualname = builtin_platform_plugins['npu']()
     if platform_cls_qualname is None:
         raise RuntimeError("No platform plugin found. Please check your "
                            "installation.")
