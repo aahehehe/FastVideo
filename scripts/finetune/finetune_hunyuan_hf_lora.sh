@@ -1,5 +1,5 @@
 export WANDB_BASE_URL="https://api.wandb.ai"
-export WANDB_MODE=online
+export WANDB_MODE=offline
 torchrun --nnodes 1 --nproc_per_node 4 --master_port 29903 \
     fastvideo/train.py \
     --seed 1024 \
