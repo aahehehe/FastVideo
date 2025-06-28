@@ -60,6 +60,7 @@ def cuda_platform_plugin() -> Optional[str]:
 
 builtin_platform_plugins = {
     'cuda': cuda_platform_plugin,
+    'npu': npu_platform_plugin,
 }
 
 
