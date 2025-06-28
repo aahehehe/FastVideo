@@ -34,6 +34,9 @@ from fastvideo.utils.parallel_states import (destroy_sequence_parallel_group, ge
                                              initialize_sequence_parallel_state)
 from fastvideo.utils.validation import log_validation
 
+import torch_npu
+from torch_npu.contrib import transfer_to_npu
+
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
 check_min_version("0.31.0")
 
@@ -172,7 +175,7 @@ def main(args):
     local_rank = int(os.environ["LOCAL_RANK"])
     rank = int(os.environ["RANK"])
     world_size = int(os.environ["WORLD_SIZE"])
-    dist.init_process_group("nccl")
+    dist.init_process_group("hccl")
     torch.cuda.set_device(local_rank)
     device = torch.cuda.current_device()
     initialize_sequence_parallel_state(args.sp_size)
